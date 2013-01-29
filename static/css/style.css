@@ -1,0 +1,24 @@
+h2{
+	color:black;
+	font-family:Courier;
+}
+
+body{
+	
+}
+
+#cursor{
+	margin: 6px 3px 6px 3px;
+	position: absolute;
+	font-weight: bold;
+	background-color:#fff;
+}
+form input{	
+	z-index:1;
+	background-color:#000; 
+	border:5px solid #000; 
+	color:#FFF; 
+	font-family:Courier; 
+	width:100%;
+
+}
