@@ -1,24 +1,50 @@
 h2{
 	color:black;
-	font-family:Courier;
+	font-family:monospace;
 }
 
-body{
-	
-}
-
-#cursor{
-	margin: 6px 3px 6px 3px;
-	position: absolute;
-	font-weight: bold;
+#userInput{
 	background-color:#fff;
+	color:#000;
+	font-family:monospace;
+	position:inline;
+	border:1px solid #000;
+	width:auto;
 }
-form input{	
-	z-index:1;
-	background-color:#000; 
-	border:5px solid #000; 
-	color:#FFF; 
-	font-family:Courier; 
-	width:100%;
+#user{
+	display:block;
+	width:auto;
+	float:left;
+}
+span textarea #prompt{
+	width:auto;
+	display:block;
+}
+.CodeMirror {
+	height: 20px;
+	display:block;
+	width:auto;
+}
+.CodeMirror div.CodeMirror-cursor {
+  border-left: 8px solid black;
+}
+.CodeMirror div.CodeMirror-secondarycursor {
+  border-left: 8px solid silver;
+}
+.CodeMirror-measure{
+	visibility: visible;
+	overflow-x: visible;
+	overflow-y: visible;
+}
+.CodeMirror-measure pre span{
+	visibility:hidden;
+}
+.CodeMirror-lines {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.CodeMirror-scroll {
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
 
-}
