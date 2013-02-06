@@ -2,8 +2,7 @@ h2{
 	color:black;
 	font-family:monospace;
 }
-
-{
+body{
 	background-color:#fff;
 	color:#000;
 	font-family:monospace;
@@ -11,41 +10,41 @@ h2{
 	border:1px solid #000;
 	width:auto;
 }
-#user{
-	display:block;
-	width:auto;
-	float:left;
-}
-span textarea #prompt{
-	width:auto;
-	display:block;
-}
-.CodeMirror {
+.CodeMirror.prompt{
 	height: 20px;
 	display:block;
 	width:auto;
 	border: 1px solid #000;
 }
-.CodeMirror div.CodeMirror-cursor {
+.CodeMirror.prompt div.CodeMirror-cursor {
   border-left: 8px solid black;
 }
-.CodeMirror div.CodeMirror-secondarycursor {
+.CodeMirror.prompt div.CodeMirror-secondarycursor {
   border-left: 8px solid silver;
 }
-.CodeMirror-measure{
+
+.CodeMirror.prompt div.CodeMirror-measure{
 	visibility: visible;
 	overflow-x: visible;
 	overflow-y: visible;
 }
-.CodeMirror-measure pre span{
+.CodeMirror.prompt div.CodeMirror-measure pre span{
 	visibility:hidden;
 }
-.CodeMirror-lines {
+.CodeMirror.prompt div.CodeMirror-lines {
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
-.CodeMirror-scroll {
+.CodeMirror.prompt div.CodeMirror-scroll {
 	overflow-y: hidden;
 	overflow-x: hidden;
 }
+
+.CodeMirror{
+	height: 100px;
+	display:block;
+	width:auto;
+	border: 1px solid #000;
+}
+
 
