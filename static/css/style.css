@@ -3,7 +3,7 @@ h2{
 	font-family:monospace;
 }
 
-#userInput{
+{
 	background-color:#fff;
 	color:#000;
 	font-family:monospace;
@@ -24,6 +24,7 @@ span textarea #prompt{
 	height: 20px;
 	display:block;
 	width:auto;
+	border: 1px solid #000;
 }
 .CodeMirror div.CodeMirror-cursor {
   border-left: 8px solid black;
