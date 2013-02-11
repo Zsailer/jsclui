@@ -9,22 +9,32 @@
 $(document).ready(function(){
 		
 	/**
-	 * Builds the prompt class. 
-	 * When a new prompt object is created, waits for user unix commands and executes 
+	 * Builds the Prompt class. 
+	 * When a new Prompt object is created, waits for user unix commands and executes 
 	 */
-	var prompt = function(username){
-		this.userName = username;
+	var Prompt = function(username, prompt, display){
+		this.user_name = username;
 		this.code_mirror = null;
-		this.userInput = null;
-		this.code_mirror = CodeMirror(document.body,{
-			showCursorWhenSelecting: true, 
+		this.user_input = null;
+		this.prompt_selector = prompt;
+		this.prompt_element = $(prompt);
+		this.display_selector = display;
+		this.display_element = $(display);
+		this.code_mirror = CodeMirror(function(elt){
+			elem = document.getElementById(prompt);
+			elem.parentNode.replaceChild(elt, elem);
+		},{
+			showCursorWhenSelecting: true,
 			mode: 'shell',
 			autofocus: true,
 			onKeyEvent:$.proxy(this.handle_codemirror_keyEvent, this)
 
 		});
 		$('div.CodeMirror').addClass('prompt');
-		this.code_mirror_display = CodeMirror(document.body, {
+		this.code_mirror_display = CodeMirror(function(elt){
+			elem = document.getElementById(display);
+			elem.parentNode.replaceChild(elt, elem);
+		}, {
 			showCursorWhenSelecting: false,
 			mode: 'shell',
 			readOnly: true			
@@ -36,11 +46,11 @@ $(document).ready(function(){
 	 * Waits for the 'Enter' key to be pressed.
 	 * Takes user input and sends it into the command function
 	 */
-	prompt.prototype.handle_codemirror_keyEvent = function(editor,event){
+	Prompt.prototype.handle_codemirror_keyEvent = function(editor,event){
 		if(event.keyCode === 13 && event.type === "keyup"){
-			this.userInput = this.code_mirror.doc.getLine(0);
+			this.user_input = this.code_mirror.doc.getLine(0);
 			this.code_mirror.doc.removeLine(0);
-			this.command(this.userInput);
+			this.command(this.user_input);
 			this.execute();
 		}
 	};	
@@ -50,78 +60,79 @@ $(document).ready(function(){
 	 * Takes user-input and divides it into commands, flags, and arguments
 	 *
 	 */
-	prompt.prototype.command = function(input){
-		this.userCommand = {name: null, flag: new Array(), arg: new Array()};
-		var k = 0;
-		var n = input.length;
-		var flagNum = 0;
-		var argNum = 0;
-		for(var i = 0; i < n; i++){
-			if(input[i] === ' '){
-				if(input[k+1] === '-'){
-					this.userCommand.flag[flagNum] = this.userInput.substr(k+1,i - (k+1));
-					flagNum++;
-				}else{
-					if(input[k] === ' '){
-						this.userCommand.arg[argNum] = this.userInput.substr(k+1, i-(k+1));
-						argNum++;
-					}else{
-						this.userCommand.name = this.userInput.substr(k,i-(k));
-					}
-				}
-				k = i;
-			}else if(i === n-1 && input[k+1] === '-'){
-				this.userCommand.flag[flagNum]=this.userInput.substr(k+1, i-(k));
-			}else if(i === n-1 && input[k] === ' '){
-				this.userCommand.arg[argNum] = this.userInput.substr(k+1, i-(k));
-				argNum++;
-			}else if(i === n-1){
-				this.userCommand.name = this.userInput.substr(k,i+1);
-			}
-		}	
-	};
 	
+	Prompt.prototype.command = function(input){
+		this.user_command = {name: null, flag: new Array(), arg: new Array()};
+		flag_num = 0;
+		arg_num = 0;
+		var str = input.match(/\w+|[-]\w+|"[^"]+"/g), i = str.length;
+		while(i--){
+			str[i] = str[i].replace(/"/g,"");
+		} 
+		this.user_command.name = str[0];
+		for(var k = 1; k < str.length; k++){
+			if(str[k][0] === '-'){
+				this.user_command.flag[flag_num] = str[k];
+				flag_num++;
+			}else{
+				this.user_command.arg[arg_num] = str[k];
+				arg_num++;
+			}
+		};
+	};
 	
 	/**
 	 * Executes the commands that the user inputs.
 	 * Change this code to execute what you prefer.
 	 */
-	prompt.prototype.execute = function(){
-		var com = this.userCommand.name;
-		var flags = this.userCommand.flag;
-		var arg = this.userCommand.arg;
-		this.code_mirror_display.doc.setValue("You have entered a command called " + "'" + com + ",'" + "\n flags called " + "'" + flags + ",'" + "\n and arguments called " + "'" + arg +"'.");			
+	Prompt.prototype.execute = function(){
+		for(var key in unix_commands){
+			if(this.user_command.name === key){
+				unix_commands[this.user_command.name](this.user_command.name,this.user_command.flag,this.user_command.arg);
+				this.code_mirror_display.doc.setValue("You have entered a " + "'" + unix_commands.output + "'" + " command with" + "\n flags called " + "'" + this.user_command.flag + ",'" + "\n and arguments called " + "'" + this.user_command.arg +"'.");
+			}else if(unix_commands.output === null){
+				this.code_mirror_display.doc.setValue("This command is not valid!");
+			}
+		}
 	};
+	
 	
 	/**
 	 * This is the class that contains all unix commands
 	 */
-	var unixCommands = function(){	
-		this.rm = 'Remove files';
-		this.cd = 'Change directories';
-		this.exit = 'Exit program';
-		this.logout = 'Logout of project';
-		this.kill = 'Kill the current program';
-		this.cp = 'Copy the selected filed';
-		this.mkdir = 'Make a new directory';
-		this.mv = 'Move the files';
-		this.pwd = 'Show path to current directory';
- 
+	var unix_commands = {	
+		rm: function(cmd, flags, args){
+			this.output = 'remove';
+		},
+		cd: function(cmd, flags, args){
+			this.output = 'change directory';
+		},
+		exit: function(cmd, flags, args){
+			this.output = 'exit';
+		},
+		logout: function(cmd, flags, args){
+			this.output = 'logout';
+		},
+		kill: function(cmd, flags, args){
+			this.output = 'killl';
+		},
+		cp: function(cmd, flags, args){
+			this.output = 'copy';
+		},
+		mkdir: function(cmd, flags, args){
+			this.output = 'make a directory';
+		},
+		mv: function(cmd, flags, args){
+			this.output = 'move';
+		},
+		pwd: function(cmd, flags, args){
+			this.output = 'path to directory';
+		},
+		output: null
 	};
 	
-	/**
-	 * This is an empty function to respond to 'user_command'. 
-	 * Before code is used, fill this in.
-	 * An example 'ls' command is below
-	 */
-	unixCommands.prototype.user_command = function(){
-		
-	};
-	unixCommands.prototype.ls = function(){
-
-	};
 	
-	var user1 = new prompt('user1');
+	var user1 = new Prompt('user1', 'prompt_line', 'display_window');
 		
 });
 
