@@ -53,6 +53,7 @@ $(document).ready(function(){
 			this.command(this.user_input);
 			this.execute();
 		}
+        return false;
 	};	
 	
 	
