@@ -12,7 +12,6 @@ body{
 	color:#000;
 	font-family:monospace;
 	position:inline;
-	border:1px solid #000;
 	width:auto;
 }
 .CodeMirror.prompt{
@@ -44,9 +43,8 @@ body{
 	overflow-y: hidden;
 	overflow-x: hidden;
 }
-
 .CodeMirror{
-	height: 100px;
+	height: 300px;
 	display:block;
 	width:auto;
 	border: 1px solid #000;

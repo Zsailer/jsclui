@@ -37,7 +37,8 @@ var Prompt = function(username, prompt, display){
 	}, {
 		showCursorWhenSelecting: false,
 		mode: 'shell',
-		readOnly: true			
+		readOnly: true,	
+		viewportMargin: 20		
 	});
 };
 
@@ -55,7 +56,7 @@ Prompt.prototype.add_command = function(name, playback){
  * Removes command from the command-line's library.
  */
 
-Prompt.prototype.remove_command = function(name, playback){
+Prompt.prototype.remove_command = function(name){
 	delete this.commands[name];
 };
 
@@ -112,18 +113,15 @@ Prompt.prototype.command = function(input){
 Prompt.prototype.execute = function(name, flags, args){
 	if (this.commands[name] !== undefined) {
 		this.commands[name](flags, args);
-		this.code_mirror_display.doc.setValue("You have entered a " + "'" + this.user_command.name + "'" + " command with" + "\n flags called " + "'" + this.user_command.flag + ",'" + "\n and arguments called " + "'" + this.user_command.arg +"'.");
+		var n = this.code_mirror_display.doc.lineCount();
+		this.code_mirror_display.doc.setLine(n-1, "=====================\n" + this.user_name +": "+ this.user_input + "\n\n");
+		var n = this.code_mirror_display.doc.lineCount();
+		this.code_mirror_display.doc.setLine(n-1,"You have entered a " + "'" + this.user_command.name + "'" + " command with" + "\n flags called " + "'" + this.user_command.flag + ",'" + "\n and arguments called " + "'" + this.user_command.arg +"'.\n\n");
 	}
 	if (this.commands[name] === undefined) {
-			this.code_mirror_display.doc.setValue("This command is not valid!");
+			var n = this.code_mirror_display.doc.lineCount();
+			this.code_mirror_display.doc.setLine(n-1, "=====================\n" + this.user_name +": "+ this.user_input + "\n\n");
+			var n = this.code_mirror_display.doc.lineCount();
+			this.code_mirror_display.doc.setLine(n-1,"Error: this command is not valid!\n\n");
 	}
 };
-
-	
-
-
-
-
-
-
-

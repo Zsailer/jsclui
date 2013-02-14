@@ -8,6 +8,6 @@
  */
 
 $(document).ready(function(){
-	var user = new Prompt('user1', 'prompt_line', 'display_window');
-	default_commands(user);
+	var user = new Prompt('user1@ipython', 'prompt_line', 'display_window');
+	default_commands(user); 
 });
