@@ -107,21 +107,29 @@ Prompt.prototype.command = function(input){
 
 
 /**
- * Executes the commands that the user inputs.
+ * Executes the commands that the user inputs and displays response.
  */
 
 Prompt.prototype.execute = function(name, flags, args){
 	if (this.commands[name] !== undefined) {
 		this.commands[name](flags, args);
 		var n = this.code_mirror_display.doc.lineCount();
-		this.code_mirror_display.doc.setLine(n-1, "=====================\n" + this.user_name +": "+ this.user_input + "\n\n");
+		this.code_mirror_display.doc.setLine(n-1, "=====================\n" 
+			+ this.user_name +": "+ this.user_input + "\n\n");
 		var n = this.code_mirror_display.doc.lineCount();
-		this.code_mirror_display.doc.setLine(n-1,"You have entered a " + "'" + this.user_command.name + "'" + " command with" + "\n flags called " + "'" + this.user_command.flag + ",'" + "\n and arguments called " + "'" + this.user_command.arg +"'.\n\n");
+		this.code_mirror_display.doc.setLine(n-1,
+			"You have entered a " + "'" + this.user_command.name + 
+			"'" + " command with" + "\n flags called " + "'" + 
+			this.user_command.flag + ",'" + "\n and arguments called " + 
+			"'" + this.user_command.arg +"'.\n\n");
 	}
 	if (this.commands[name] === undefined) {
 			var n = this.code_mirror_display.doc.lineCount();
-			this.code_mirror_display.doc.setLine(n-1, "=====================\n" + this.user_name +": "+ this.user_input + "\n\n");
+			this.code_mirror_display.doc.setLine(n-1, 
+				"=====================\n" + this.user_name +": "+ 
+				this.user_input + "\n\n");
 			var n = this.code_mirror_display.doc.lineCount();
-			this.code_mirror_display.doc.setLine(n-1,"Error: this command is not valid!\n\n");
+			this.code_mirror_display.doc.setLine(n-1,
+				"Error: this command is not valid!\n\n");
 	}
 };
