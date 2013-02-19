@@ -10,21 +10,27 @@
 	<script type="text/javascript" src="/static/codemirror/mode/javascript/javascript.js"></script>
 	<script type="text/javascript" src="/static/jquery/jquery.min.js"></script> 
 	<script type="text/javascript" src="/static/js/default.js"></script>
+	<script type="text/javascript" src="/static/js/display_window.js"></script>
 	<script type="text/javascript" src="/static/js/command_line.js"></script>
 	<script type="text/javascript" src="/static/js/main.js"></script>
-	<script type="text/javascript" src="/static/js/main.js"></script>
 	<script type="text/javascript" src="/static/bootstrap/bootstrap/js/bootstrap.min.js"></script>
-    
-
-		  
 </head>
 
 <body>
-    <div class="container">
-     	<h2>JavaScript Command Prompt</h2>
-    	<div id="prompt_line"></div>
-    	<div id="blank"></div>
-    	<div id="display_window"></div>
+
+    <div class="container">	
+		<div id="blank"></div>
+		<div class="navbar">
+			<div class="navbar-inner"><a class="brand" href="https://github.com/Zsailer/jsclui"><img src="http://code.google.com/p/qtargparser/logo?cct=1352656626"> Web-page Command Line</a>
+			</div>
+		</div>
+		<div class="well well-small">
+			<div id="prompt_line"></div>
+		</div>
+		<div id="alert"></div>
+		<div class="well well-small">
+			<div id="display_window"></div>
+		</div>
     </div>
 </body>
 		

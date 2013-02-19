@@ -20,6 +20,7 @@ var Prompt = function(username, prompt, display){
 	this.display_selector = display;
 	this.display_element = $(display);
 	this.commands = {};
+	this.code_mirror_display = null;
 	this.code_mirror = CodeMirror(function(elt){
 		elem = document.getElementById(prompt);
 		elem.parentNode.replaceChild(elt, elem);
@@ -31,15 +32,9 @@ var Prompt = function(username, prompt, display){
 
 	});
 	$('div.CodeMirror').addClass('prompt');
-	this.code_mirror_display = CodeMirror(function(elt){
-		elem = document.getElementById(display);
-		elem.parentNode.replaceChild(elt, elem);
-	}, {
-		showCursorWhenSelecting: false,
-		mode: 'shell',
-		readOnly: true,	
-		viewportMargin: 20		
-	});
+	if (display !== null){
+		this.code_mirror_display = new Display(display);
+	}
 };
 
 
@@ -70,7 +65,7 @@ Prompt.prototype.handle_codemirror_keyEvent = function(editor,event){
 		this.user_input = this.code_mirror.doc.getLine(0);
 		this.code_mirror.doc.removeLine(0);
 		this.command(this.user_input);
-		this.execute(this.user_command.name, this.user_name.arg, this.user_name.flag);
+		this.execute(this.user_command.name, this.user_command.flag, this.user_command.arg);
 		event.stop();
 		return true;
 	} else if (event.keyCode === 13 && event.type === "keydown") {
@@ -112,24 +107,19 @@ Prompt.prototype.command = function(input){
 
 Prompt.prototype.execute = function(name, flags, args){
 	if (this.commands[name] !== undefined) {
+		$('#alert').replaceWith('<div id="alert"></div>'); 
 		this.commands[name](flags, args);
-		var n = this.code_mirror_display.doc.lineCount();
-		this.code_mirror_display.doc.setLine(n-1, "=====================\n" 
-			+ this.user_name +": "+ this.user_input + "\n\n");
-		var n = this.code_mirror_display.doc.lineCount();
-		this.code_mirror_display.doc.setLine(n-1,
-			"You have entered a " + "'" + this.user_command.name + 
-			"'" + " command with" + "\n flags called " + "'" + 
-			this.user_command.flag + ",'" + "\n and arguments called " + 
-			"'" + this.user_command.arg +"'.\n\n");
 	}
-	if (this.commands[name] === undefined) {
-			var n = this.code_mirror_display.doc.lineCount();
-			this.code_mirror_display.doc.setLine(n-1, 
-				"=====================\n" + this.user_name +": "+ 
-				this.user_input + "\n\n");
-			var n = this.code_mirror_display.doc.lineCount();
-			this.code_mirror_display.doc.setLine(n-1,
-				"Error: this command is not valid!\n\n");
+	else if (this.commands[name] === undefined) {
+		$('#alert').replaceWith('<div id="alert" class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error:</strong> This is not a valid command!</div>'); 
+	}
+	if (this.code_mirror_display !== null) {
+		this.code_mirror_display.log_input(this.user_name, this.user_input);
+		if (this.commands[name] !== undefined) {
+			this.code_mirror_display.output(true,name, flags,args);
+		}
+		else if (this.commands[name] === undefined) {
+			this.code_mirror_display.output(false,name,flags,args);
+		}	
 	}
 };

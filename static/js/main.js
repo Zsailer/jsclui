@@ -7,7 +7,7 @@
  * Then it creates a new command-line and display window in specified html div. 
  */
 
-$(document).ready(function(){
+$(document).ready(function(){ 
 	var user = new Prompt('user1@ipython', 'prompt_line', 'display_window');
 	default_commands(user); 
 });

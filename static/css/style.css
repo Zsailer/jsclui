@@ -14,19 +14,19 @@ body{
 	position:inline;
 	width:auto;
 }
+
+pre{
+	line-height:0px;
+}
 .CodeMirror.prompt{
 	height: 18px;
-	display:block;
-	width:auto;
-	border: 1px solid #000;
-	background-color: black;
-	color: white;
 }
+
 .CodeMirror.prompt div.CodeMirror-cursor {
-  border-left: 8px solid white;
+  border-left: 8px solid black;
 }
 .CodeMirror.prompt div.CodeMirror-secondarycursor {
-  border-left: 8px solid black;
+  border-left: 8px solid white;
 }
 
 .CodeMirror.prompt div.CodeMirror-measure{
@@ -45,13 +45,13 @@ body{
 	overflow-y: hidden;
 	overflow-x: hidden;
 }
-.CodeMirror{
+/*.CodeMirror{
 	height: 300px;
 	display:block;
 	width:auto;
 	border: 1px solid #000;
 	color: white;
 	background-color: black;
-}
+}*/
 
 
