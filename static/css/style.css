@@ -15,9 +15,6 @@ body{
 	width:auto;
 }
 
-pre{
-	line-height:0px;
-}
 .CodeMirror.prompt{
 	height: 18px;
 }
@@ -45,13 +42,6 @@ pre{
 	overflow-y: hidden;
 	overflow-x: hidden;
 }
-/*.CodeMirror{
-	height: 300px;
-	display:block;
-	width:auto;
-	border: 1px solid #000;
-	color: white;
-	background-color: black;
-}*/
+
 
 

@@ -8,6 +8,7 @@
  */
 
 $(document).ready(function(){ 
-	var user = new Prompt('user1@ipython', 'prompt_line', 'display_window');
+	var alert = new HybridDisplay('#display_window');
+	var user = new Prompt('user1@ipython', 'prompt_line', alert);
 	default_commands(user); 
 });
