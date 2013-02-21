@@ -7,6 +7,6 @@
 
 var ErrorOutput = function(command){
 	'cd': 'This directory does not exist!',
-	'rm': 'Cannot remove this file'
+	'rm': 'Cannot remove this file. The file does not exist!'
 	
 }

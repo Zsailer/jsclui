@@ -1,7 +1,7 @@
 //====================================================================
 // DISPLAY WINDOWS
 //====================================================================
-		
+        
 /**
  * Includes three different types of output message displays. 
  *
@@ -14,53 +14,58 @@
  */
 
 var AlertDisplay = function (display) {
-	var close_button = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-	this.success = function(){
-		$(display).empty();
-		var message = 'Success!';
-		$(display).append('<div class="alert alert-success">' + close_button + message + '.</div>')
-	};
-	this.error = function(){
-		$(display).empty();
-		var message = 'Error!';
-		$(display).append('<div class="alert alert-error">' + close_button + message + '</div>')
-	};
+    this.display = display;
+    this.close_button = '<button type="button" class="close" data-dismiss="alert">&times;</button>'; 
 }
+
+AlertDisplay.prototype.success = function(message){
+    $(this.display).empty().append('<div class="alert alert-success">' + this.close_button + message + '</div>')
+}
+
+AlertDisplay.prototype.error = function(message){
+    $(this.display).empty().append('<div class="alert alert-error">' + this.close_button + message + '</div>')
+}
+
 
 
 var ScrollDisplay = function (display) {
-	$(display).addClass('well well-small');
-	$(display).css('height', '200px');
-	$(display).css('overflow', 'scroll');
-	this.success = function(){
-		var message = 'Success!';
-		$(display).append('<div>' + message + '</div>');;
-	}
-	this.error = function(){
-		var message = 'Error!';
-		$(display).append('<div>' + message + '</div>');
-	}
+    this.display = display;
+    $(this.display).addClass('well well-small').css('height', '200px').css('overflow', 'scroll');
 }
 
 
+ScrollDisplay.prototype.echo_input = function(input){
+    $(this.display).append('<div>' + input + '</div>');
+}
+ScrollDisplay.prototype.success = function(message){
+    $(this.display).append('<div>' + message + '</div>');
+}
+
+ScrollDisplay.prototype.error = function(message){
+    $(this.display).append('<div>' + message + '</div>');
+}
+
+
+
+
 var HybridDisplay = function (display) {
-	$(display).before('<div id="alert"></div>');
-	$(display).addClass('well well-small');
-	$(display).css('height', '200px');
-	$(display).css('overflow', 'scroll');
-	var close_button = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-	this.success = function(){
-		var message = 'Success!';
-		$(display).before('<div id="alert"></div>');
-		$('<div id="alert" class="alert alert-success">' + close_button + message + '</div>').replaceAll('#alert');
-		$(display).append('<div>' + message + '</div>');
-		
-	}
-	this.error = function(){
-		var message = 'Error!';
-		$(display).before('<div id="alert"></div>');
-		$('<div id="alert" class="alert alert-error">' + close_button + message + '</div>').replaceAll('#alert');
-		$(display).append('<div>' + message + '</div>');
-	}
-	
+    this.display = display;
+    $(this.display).before('<div id="alert"></div>').addClass('well well-small').css('height', '200px').css('overflow', 'scroll');
+    this.close_button = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+}
+
+HybridDisplay.prototype.echo_input = function(input){
+    $(this.display).append('<div>' + input + '</div>');
+}
+
+HybridDisplay.prototype.success = function(message){
+    $(this.display).before('<div id="alert"></div>');
+    $('<div id="alert" class="alert alert-success">' + this.close_button + message + '</div>').replaceAll('#alert');
+    $(this.display).append('<div>' + message + '</div>');
+}
+
+HybridDisplay.prototype.error = function(message){
+    $(this.display).before('<div id="alert"></div>');
+    $('<div id="alert" class="alert alert-error">' + this.close_button + message + '</div>').replaceAll('#alert');
+    $(this.display).append('<div>' + message + '</div>');
 }
