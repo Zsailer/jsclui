@@ -14,34 +14,3 @@ body{
 	position:inline;
 	width:auto;
 }
-
-.CodeMirror.prompt{
-	height: 18px;
-}
-
-.CodeMirror.prompt div.CodeMirror-cursor {
-  border-left: 8px solid black;
-}
-.CodeMirror.prompt div.CodeMirror-secondarycursor {
-  border-left: 8px solid white;
-}
-
-.CodeMirror.prompt div.CodeMirror-measure{
-	visibility: visible;
-	overflow-x: visible;
-	overflow-y: visible;
-}
-.CodeMirror.prompt div.CodeMirror-measure pre span{
-	visibility:hidden;
-}
-.CodeMirror.prompt div.CodeMirror-lines {
-	padding-top: 2px;
-	padding-bottom: 2px;
-}
-.CodeMirror.prompt div.CodeMirror-scroll {
-	overflow-y: hidden;
-	overflow-x: hidden;
-}
-
-
-

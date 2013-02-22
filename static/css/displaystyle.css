@@ -1,0 +1,7 @@
+div.display.well.well-small {
+    height: 200px;
+    overflow: scroll;
+}
+div.display_image{
+    text-align:center;
+}
