@@ -113,12 +113,15 @@ Prompt.prototype.up_arrow_keyEvent = function(){
 }
 
 Prompt.prototype.down_arrow_keyEvent = function(n){
-    if (this.history_index !== n-1) {
+    if (this.history_index < n-1) {
         this.history_index = this.history_index + 1;
         this.code_mirror.doc.setValue(this.history_input[this.history_index]);
         this.code_mirror.doc.setCursor(0, this.history_input[this.history_index].length)
-    } else {
+    } else if (this.history_index === n-1) {
+        this.history_index = this.history_index + 1;
         this.code_mirror.doc.setValue('');
+    } else {
+        this.history_index = n;
     }
 }
 
@@ -172,6 +175,5 @@ Prompt.prototype.execute = function(name, flags, args){
     else if (callback === undefined) {
         this.display.echo_input(this.username + ": " + this.user_input);
         this.display.error('This command does not exist!');
-        this.display.add_element('<div/>','<img src= "http://www.unifymatch.com/images/error_button.png">');
     }
 };
